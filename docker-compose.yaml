@@ -1,0 +1,55 @@
+version: '2'
+
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper:3.4.6
+    ports:
+        - "2181:2181"
+        - "2182:2182"
+  clickhouse01:
+    image: yandex/clickhouse-server:21.3
+    expose:
+      - "9000"
+    user: root
+    ports:
+      - "9001:9000"
+    volumes:
+      - ./data/node1/etc:/etc/clickhouse-server 
+      - ./data/node1/data:/var/lib/clickhouse
+    ulimits:
+      nofile:
+        soft: 262144  
+        hard: 262144  
+    privileged: true
+
+  clickhouse02:
+    image: yandex/clickhouse-server:21.3
+    expose:
+      - "9000"
+    user: root
+    ports:
+      - "9002:9000"  
+    volumes:
+      - ./data/node2/etc:/etc/clickhouse-server 
+      - ./data/node2/data:/var/lib/clickhouse
+    ulimits:
+      nofile:
+        soft: 262144  
+        hard: 262144  
+    privileged: true
+
+  clickhouse03:
+    image: yandex/clickhouse-server:21.3
+    expose:
+      - "9000"
+    user: root
+    ports:
+      - "9003:9000"  
+    volumes:
+      - ./data/node3/etc:/etc/clickhouse-server 
+      - ./data/node3/data:/var/lib/clickhouse
+    ulimits:
+      nofile:
+        soft: 262144  
+        hard: 262144  
+    privileged: true  
